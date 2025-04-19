@@ -126,28 +126,31 @@ the response for sending whatsapp as the following
 success
 ```json
 {
-  "account_sid":"your-sid",
-  "api_version":"2010-04-01",
-  "body":"sent-message",
-  "date_created":"Sat, 19 Apr 2025 12:17:30 +0000",
-  "date_sent":null,
-  "date_updated":"Sat, 19 Apr 2025 12:17:30 +0000",
-  "direction":"outbound-api",
-  "error_code":null,
-  "error_message":null,
-  "from":"whatsapp:your-whatsapp-send-number",
-  "messaging_service_sid":null,
-  "num_media":"0",
-  "num_segments":"1",
-  "price":null,
-  "price_unit":null,
-  "sid":"sid",
-  "status":"queued",
-  "subresource_uris":{
-    "media":"media json"
-  },
-  "to":"whatsapp:receive-mobile",
-  "uri":"json-path"
+  "status": true,
+  "response": {
+    "account_sid": "your-sid",
+    "api_version": "2010-04-01",
+    "body": "sent-message",
+    "date_created": "Sat, 19 Apr 2025 12:17:30 +0000",
+    "date_sent": null,
+    "date_updated": "Sat, 19 Apr 2025 12:17:30 +0000",
+    "direction": "outbound-api",
+    "error_code": null,
+    "error_message": null,
+    "from": "whatsapp:your-whatsapp-send-number",
+    "messaging_service_sid": null,
+    "num_media": "0",
+    "num_segments": "1",
+    "price": null,
+    "price_unit": null,
+    "sid": "sid",
+    "status": "queued",
+    "subresource_uris": {
+      "media": "media json"
+    },
+    "to": "whatsapp:receive-mobile",
+    "uri": "json-path"
+  }
 }
 ```
 
