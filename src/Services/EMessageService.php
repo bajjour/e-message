@@ -11,13 +11,15 @@ class EMessageService implements EMessageInterface
     private string $auth_token;
     private string $send_number;
     private string $service_sid;
+    private string $whats_send_number;
 
-    public function __construct(string $account_sid, string $auth_token, string $send_number, string $service_sid)
+    public function __construct(string $account_sid, string $auth_token, string $send_number, string $service_sid, string $whats_send_number)
     {
         $this->account_sid = $account_sid;
         $this->auth_token = $auth_token;
         $this->send_number = $send_number;
         $this->service_sid = $service_sid;
+        $this->whats_send_number = $whats_send_number;
     }
 
     /**
@@ -39,6 +41,33 @@ class EMessageService implements EMessageInterface
         $from = $p_service ?? $this->service_sid;
 
         return $this->send_sms($p_mobile, $p_message, 'MessagingServiceSid', $from);
+    }
+
+    /**
+     * @throws EMessageException
+     */
+    public function send_whatsapp(string $p_mobile, string $p_message, string $p_send_num = null): array
+    {
+        $url = "https://api.twilio.com/2010-04-01/Accounts/{$this->account_sid}/Messages.json";
+
+        try {
+            $response = Http::withBasicAuth($this->account_sid, $this->auth_token)
+                ->asForm()
+                ->post($url, [
+                    'From' => 'whatsapp:' . $this->whats_send_number,
+                    'To' => 'whatsapp:' . $this->normalize_number($p_mobile),
+                    'Body' => $p_message
+                ]);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            throw new EMessageException('Error Sending Whatsapp => status: ' . $response->status() . ', response: ' . $response->body());
+
+        } catch (\Exception $e) {
+            throw new EMessageException('Error Sending Whatsapp => ' . $e->getMessage());
+        }
     }
 
     /**
