@@ -60,10 +60,17 @@ class EMessageService implements EMessageInterface
                 ]);
 
             if ($response->successful()) {
-                return $response->json();
+                return [
+                    'status' => true,
+                    'response' => $response->json(),
+                ];
             }
 
-            throw new EMessageException('Error Sending Whatsapp => status: ' . $response->status() . ', response: ' . $response->body());
+            return [
+                'status' => false,
+                'response_status' => $response->status(),
+                'response_body' => $response->json(),
+            ];
 
         } catch (\Exception $e) {
             throw new EMessageException('Error Sending Whatsapp => ' . $e->getMessage());
