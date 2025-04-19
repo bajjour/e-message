@@ -114,7 +114,9 @@ when sending sms fails you will receive another response like the following
 
 
 `Send Whatsapp Message`
+
 you can send whatsapp using the following function.
+
 ```php
 $receive_mobile = '+970XXXXXXXXX'; //receive whatsapp number
 $message = 'your message to your user';
