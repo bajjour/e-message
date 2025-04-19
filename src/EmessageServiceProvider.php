@@ -15,6 +15,7 @@ class EmessageServiceProvider extends ServiceProvider
                 config('e-message.auth_token'),
                 config('e-message.default_send_number'),
                 config('e-message.default_service_sid'),
+                config('e-message.default_whatsapp_send_number'),
             );
         });
 
