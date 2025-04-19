@@ -1,6 +1,6 @@
 # E-Message Laravel Package
 
-This package provides a simple and easy-to-use interface to send SMS to any phone using twillo in laravel applications.
+This package provides a simple and easy-to-use interface to send SMS and Whatsapp to any phone using twillo in laravel applications.
 
 ---
 
@@ -27,6 +27,7 @@ EMESSAGE_ACCOUNT_SID="your-twillo-account-sid"
 EMESSAGE_AUTH_TOKEN="your-twillo-auth-token"
 EMESSAGE_DEFAULT_SEND_NUMBER="your-send-number" #required when sending using phone number
 EMESSAGE_DEFAULT_SEND_SERVICE="your-send-messaging-service-sid" #required when sending using service
+EMESSAGE_SEND_WHATSAPP_NUMBER="your-whatsapp-sending-messaging" #required when sending using whatsapp
 ```
 
 ## Usage
@@ -98,7 +99,7 @@ Response
 }
 ```
 
-when sending failed you will receive another response like the following
+when sending sms fails you will receive another response like the following
 ```json
 {
   "status":false,
@@ -110,6 +111,60 @@ when sending failed you will receive another response like the following
   }
 }
 ```
+
+
+`Send Whatsapp Message`
+you can send whatsapp using the following function.
+```php
+$receive_mobile = '+970XXXXXXXXX'; //receive whatsapp number
+$message = 'your message to your user';
+$res = $this->em_service->send_whatsapp($receive_mobile, $message);
+```
+
+the response for sending whatsapp as the following
+
+success
+```json
+{
+  "account_sid":"your-sid",
+  "api_version":"2010-04-01",
+  "body":"sent-message",
+  "date_created":"Sat, 19 Apr 2025 12:17:30 +0000",
+  "date_sent":null,
+  "date_updated":"Sat, 19 Apr 2025 12:17:30 +0000",
+  "direction":"outbound-api",
+  "error_code":null,
+  "error_message":null,
+  "from":"whatsapp:your-whatsapp-send-number",
+  "messaging_service_sid":null,
+  "num_media":"0",
+  "num_segments":"1",
+  "price":null,
+  "price_unit":null,
+  "sid":"sid",
+  "status":"queued",
+  "subresource_uris":{
+    "media":"media json"
+  },
+  "to":"whatsapp:receive-mobile",
+  "uri":"json-path"
+}
+```
+
+fail
+```json
+{
+  "status":false,
+  "response_status":400,
+  "response_body":{
+    "code":63007,
+    "message":"Twilio could not find a Channel with the specified From address",
+    "more_info":"https:\/\/www.twilio.com\/docs\/errors\/63007",
+    "status":400
+  }
+}
+```
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

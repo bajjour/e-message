@@ -1,7 +1,7 @@
 {
   "name": "bajjour/emessage-pkg",
-  "version": "1.0.0",
-  "description": "A Laravel package for Sending SMS Messages using Twillo",
+  "version": "1.1.0",
+  "description": "A Laravel package for Sending SMS and Whatsapp Messages using Twillo",
   "type": "library",
   "license": "MIT",
   "autoload": {

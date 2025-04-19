@@ -46,7 +46,7 @@ class EMessageService implements EMessageInterface
     /**
      * @throws EMessageException
      */
-    public function send_whatsapp(string $p_mobile, string $p_message, string $p_send_num = null): array
+    public function send_whatsapp(string $p_mobile, string $p_message): array
     {
         $url = "https://api.twilio.com/2010-04-01/Accounts/{$this->account_sid}/Messages.json";
 
