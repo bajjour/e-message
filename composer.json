@@ -1,0 +1,29 @@
+{
+  "name": "bajjour/emessage-pkg",
+  "version": "1.0.0",
+  "description": "A Laravel package for Sending SMS and Whatsapp Messaging",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "EMessage\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.0",
+    "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+    "illuminate/cache": "^9.0|^10.0|^11.0|^12.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+          "EMessage\\EmessageServiceProvider"
+      ],
+      "aliases": {
+        "EMessage": "EMessage\\Facades\\EMessage"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
