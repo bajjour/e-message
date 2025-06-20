@@ -268,9 +268,14 @@ following function, you can generate long time token that valid for
 
 Don't forget to set **WHATSAPP_APP_ID, WHATSAPP_APP_SECRET** in env before calling refresh_token.
 
+Function refresh_token() can update "WHATSAPP_ACCESS_TOKEN" in your env file, 
+just set $update_env = true.
+
 ```php
 $short_time_token = 'token....';
-$res = $this->w_service->refresh_token($short_time_token);
+$update_env = false;
+
+$res = $this->w_service->refresh_token($short_time_token, $update_env);
 ```
 
 Success Response
