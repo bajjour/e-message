@@ -1,6 +1,8 @@
 # E-Message Laravel Package
 
-This package provides a simple and easy-to-use interface to send SMS and Whatsapp to any phone using twillo in laravel applications.
+This package provides a simple and easy-to-use interface to send SMS and 
+Whatsapp to any phone using twillo, and also support send whatsapp using 
+whatsapp api in laravel applications.
 
 ---
 
@@ -20,7 +22,7 @@ After installing the package, publish the configuration file:
 php .\artisan vendor:publish --provider="EMessage\EmessageServiceProvider" --tag="e-message-config"
 ```
 
-Update your .env file with your Twillo account settings:
+if you need to integrate with twillo, Update your .env file with your Twillo account settings:
 
 ```bash
 EMESSAGE_ACCOUNT_SID="your-twillo-account-sid"
@@ -30,7 +32,16 @@ EMESSAGE_DEFAULT_SEND_SERVICE="your-send-messaging-service-sid" #required when s
 EMESSAGE_SEND_WHATSAPP_NUMBER="your-whatsapp-sending-messaging" #required when sending using whatsapp
 ```
 
-## Usage
+if you need to integrate with whatsapp api, Update your .env file with your meta account settings:
+
+```bash
+WHATSAPP_PHONE_NUMBER_ID="your-whatsapp-phone-number-id"
+WHATSAPP_ACCESS_TOKEN="your-whatsapp-access-token"
+WHATSAPP_APP_ID="app-id" #optional, required only with refresh token
+WHATSAPP_APP_SECRET="app-secret" #optional, required only with refresh token
+```
+
+## Twillo Usage
 
 `Initialize the Service`
 
@@ -167,6 +178,115 @@ fail
     "more_info":"https:\/\/www.twilio.com\/docs\/errors\/63007",
     "status":400
   }
+}
+```
+
+## Whatsapp API Usage
+`Initialize the Service`
+
+You can initialize WhatsApp Service in your controller:
+
+```php
+use EMessage\Services\WhatsAppService;
+
+protected WhatsAppService $w_service;
+
+public function __construct(WhatsAppService $w_service)
+{
+    $this->w_service = $w_service;
+}
+```
+
+`Send Whatsapp Template`
+
+you can send whatsapp template by calling send_template() function. like the following
+
+```php
+$otp = 'random-digits';
+
+$template_name = 'otp';
+$mobile = '970xxxxxxxxx';
+$lang_code = 'en_US';
+
+$components = [
+    [
+        'type' => 'body',
+        'parameters' => [
+            [
+                'type' => 'text',
+                'text' => $otp
+            ]
+        ]
+    ],
+    [
+        'type' => 'button',
+        'sub_type' => 'url',
+        'index' => '0',
+        'parameters' => [
+            [
+                'type' => 'text',
+                'text' => $otp
+            ]
+        ]
+    ]
+];
+
+$res = $this->w_service->send_template($mobile, $template_name, $components, $lang_code);
+```
+
+Success Response
+```json
+{
+  "status":true,
+  "response":{
+    "messaging_product":"whatsapp",
+    "contacts":[{
+      "input":"970xxxxxxxxx",
+      "wa_id":"970xxxxxxxxx"
+    }],
+    "messages":[{
+      "id":"sent-message-id",
+      "message_status":"accepted"
+    }]
+  }
+}
+```
+
+Fail Response
+```json
+{
+  "status":false,
+  "response":"Error Details"
+}
+```
+
+`Refresh Whatsapp Token`
+
+Sometimes Meta account provide you with short time token, using the 
+following function, you can generate long time token that valid for
+60 days.
+
+Don't forget to set **WHATSAPP_APP_ID, WHATSAPP_APP_SECRET** in env before calling refresh_token.
+
+```php
+$short_time_token = 'token....';
+$res = $this->w_service->refresh_token($short_time_token);
+```
+
+Success Response
+```json
+{
+  "status":true,
+  "new_token": "new-60-days-token",
+  "expires_in": "expire-day"
+}
+```
+
+Fail Response
+```json
+{
+  "status":false,
+  "response":"Error Details"
 }
 ```
 
