@@ -4,6 +4,7 @@ namespace EMessage;
 use EMessage\Services\WhatsAppService;
 use Illuminate\Support\ServiceProvider;
 use EMessage\Services\EMessageService;
+use EMessage\Services\ISMSService;
 
 class EmessageServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,13 @@ class EmessageServiceProvider extends ServiceProvider
                 config('e-message.whatsapp_app_id'),
                 config('e-message.whatsapp_app_secret'),
                 config('e-message.whatsapp_phone_number_id'),
+            );
+        });
+
+        $this->app->singleton(ISMSService::class, function ($app) {
+            return new ISMSService(
+                config('e-message.isms_username'),
+                config('e-message.isms_password'),
             );
         });
 

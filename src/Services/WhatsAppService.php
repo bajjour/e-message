@@ -2,7 +2,7 @@
 
 namespace EMessage\Services;
 
-use Illuminate\Support\Facades\File;
+//use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
 class WhatsAppService
@@ -66,7 +66,7 @@ class WhatsAppService
 
     }
 
-    public function refresh_token($p_short_token, $update_env = false): array
+    public function refresh_token($p_short_token): array
     {
         $res = Http::get('https://graph.facebook.com/v22.0/oauth/access_token', [
             'grant_type' => 'fb_exchange_token',
@@ -79,18 +79,18 @@ class WhatsAppService
 
             $newToken = $res->json('access_token');
 
-            if ($update_env) {
-                try {
-                    $envPath = base_path('.env');
-                    $envContent = File::get($envPath);
-                    $updatedEnv = preg_replace(
-                        '/WHATSAPP_ACCESS_TOKEN=.*/',
-                        'WHATSAPP_ACCESS_TOKEN=' . $newToken,
-                        $envContent
-                    );
-                    File::put($envPath, $updatedEnv);
-                } catch (\Exception) { }
-            }
+//            if ($update_env) {
+//                try {
+//                    $envPath = base_path('.env');
+//                    $envContent = File::get($envPath);
+//                    $updatedEnv = preg_replace(
+//                        '/WHATSAPP_ACCESS_TOKEN=.*/',
+//                        'WHATSAPP_ACCESS_TOKEN=' . $newToken,
+//                        $envContent
+//                    );
+//                    File::put($envPath, $updatedEnv);
+//                } catch (\Exception) { }
+//            }
 
             return [
                 'status' => true,

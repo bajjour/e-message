@@ -13,4 +13,8 @@ return [
     'whatsapp_access_token' => env('WHATSAPP_ACCESS_TOKEN', ''),
     'whatsapp_app_id' => env('WHATSAPP_APP_ID', ''), //optional, required only with refresh token
     'whatsapp_app_secret' => env('WHATSAPP_APP_SECRET', ''), //optional, required only with refresh token
+
+    //used with ISMS integration
+    'isms_username' => env('ISMS_USERNAME', ''),
+    'isms_password' => env('ISMS_PASSWORD', ''),
 ];
