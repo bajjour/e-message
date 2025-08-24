@@ -104,7 +104,7 @@ class ISMSService implements ISMSInterface
     private function render_response($response): array
     {
         if ($response->successful()) {
-            $str_arr = explode(" ", $response->body());
+            $str_arr = explode("=", $response->body());
 
             if (count($str_arr) > 0) {
                 return [
